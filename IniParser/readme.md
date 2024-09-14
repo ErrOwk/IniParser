@@ -1,6 +1,9 @@
 ﻿# IniParser
 A completely .NET based ini file operation class.
 
+## Installation
+[NuGet](https://www.nuget.org/packages/ErrOwk.IniParser/)
+
 ## Usage
 
 ### Initialization
