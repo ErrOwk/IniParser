@@ -7,10 +7,10 @@ namespace ErrOwk.IniParser
         private string iniFilePath;
 
         private Dictionary<string,string> keyPairs = new Dictionary<string, string>();
-        //存储配置文件的键值
+        //Stores the key value of the configuration file
 
         private Dictionary<string,Dictionary<string, string>> sections = new Dictionary<string,Dictionary<string, string>>();
-        //存储section
+        //store section
 
         public IniParser(string iniPath)
         {
@@ -35,13 +35,13 @@ namespace ErrOwk.IniParser
                 while ((currentLine = iniFile.ReadLine()!) != null)
                 {
                     currentLine = currentLine.Trim();
-                    //确认非空白行
+                    //Check if it is a non-blank line
                     if (currentLine != "")
                     {
-                        //判断是否为section
+                        //Determine whether it is a section
                         if (currentLine.StartsWith('[') && currentLine.EndsWith(']'))
                         {
-                            //将已写入的keyPairs存入该section中
+                            //Store the written keyPairs in this section
                             if (currentSection != null && keyPairs != null)
                             {
                                 sections.Add(currentSection, keyPairs);
@@ -52,35 +52,43 @@ namespace ErrOwk.IniParser
                         }
                         else
                         {
-                            //将行内容分割为key和value写入keyPairs中
+                            //Split the row content into key and value and write them into keyPairs
                             var currentkeyPair = currentLine.Split(['='], 2);
-                            keyPairs!.Add(currentkeyPair[0], currentkeyPair[1]);
+                            keyPairs!.Add(currentkeyPair[0].Trim(), currentkeyPair[1].Trim());
                         }
                     }
                 }
-                //将已写入的keyPairs存入该section中
+                //Store the written keyPairs in this section
                 if (currentSection != null && keyPairs != null) sections.Add(currentSection, keyPairs);
             }
         }
 
         /// <summary>
-        /// 返回设置项的值
+        /// Return the value of a key
         /// </summary>
-        /// <param name="sectionName">Section</param>
+        /// <param name="sectionName">The section of the key</param>
         /// <param name="keyName">Key</param>
         /// <returns></returns>
         public string Get(string sectionName, string keyName)
         {
             LoadIniFile();
-            return (string)sections[sectionName][keyName]!;
+            if (sections.ContainsKey(sectionName))
+            {
+                if (sections[sectionName].ContainsKey(keyName))
+                {
+                    return (string)sections[sectionName][keyName]!;
+                }
+                else return "";
+            }
+            else return "";
         }
 
         /// <summary>
-        /// 修改/创建配置项
+        /// Update/Create Key
         /// </summary>
-        /// <param name="sectionName">Section</param>
-        /// <param name="keyName">Key</param>
-        /// <param name="keyValue">修改/创建的值</param>
+        /// <param name="sectionName">The section of the key</param>
+        /// <param name="keyName">The key that needs to be updated/created</param>
+        /// <param name="keyValue">Value of the Key</param>
         public void Update(string sectionName, string keyName, string keyValue)
         {
             if (sections.ContainsKey(sectionName))
@@ -92,24 +100,54 @@ namespace ErrOwk.IniParser
                 }
                 else
                 {
-                    //创建KeyPairs
+                    //Create keyPairs
                     sections[sectionName].Add(keyName, keyValue);
                     Save();
                 }
             }
             else
             {
-                //设置Keypair
+                //Set keyPair
                 keyPairs = new();
                 keyPairs.Add(keyName, keyValue);
-                //创建section
+                //Create section
                 sections.Add(sectionName, keyPairs);
                 Save();
             }
         }
 
         /// <summary>
-        /// 将保存的所有信息写入文件中
+        /// Remove a keyValuePair
+        /// </summary>
+        /// <param name="sectionName">Section of the key</param>
+        /// <param name="keyName">The key that needs to be removed</param>
+        public void Remove(string sectionName, string keyName)
+        {
+            if (sections.ContainsKey(sectionName))
+            {
+                if (sections[sectionName].ContainsKey(keyName))
+                {
+                    sections[sectionName].Remove(keyName);
+                    Save();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove a section
+        /// </summary>
+        /// <param name="sectionName">The section that needs to be removed</param>
+        public void Remove(string sectionName)
+        {
+            if (sections.ContainsKey(sectionName))
+            {
+                sections.Remove(sectionName);
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// Write the info to the file
         /// </summary>
         private void Save()
         {
