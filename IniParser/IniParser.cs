@@ -6,10 +6,13 @@ namespace ErrOwk.IniParser
     {
         private string iniFilePath;
 
-        private Dictionary<string,string> keyPairs = new Dictionary<string, string>();
+        private Dictionary<string, string> keyPairs = new Dictionary<string, string>();
+
         //Stores the key value of the configuration file
 
-        private Dictionary<string,Dictionary<string, string>> sections = new Dictionary<string,Dictionary<string, string>>();
+        private Dictionary<string, Dictionary<string, string>> sections =
+            new Dictionary<string, Dictionary<string, string>>();
+
         //store section
 
         public IniParser(string iniPath)
@@ -53,13 +56,14 @@ namespace ErrOwk.IniParser
                         else
                         {
                             //Split the row content into key and value and write them into keyPairs
-                            var currentkeyPair = currentLine.Split(['='], 2);
+                            var currentkeyPair = currentLine.Split('=', 2);
                             keyPairs!.Add(currentkeyPair[0].Trim(), currentkeyPair[1].Trim());
                         }
                     }
                 }
                 //Store the written keyPairs in this section
-                if (currentSection != null && keyPairs != null) sections.Add(currentSection, keyPairs);
+                if (currentSection != null && keyPairs != null)
+                    sections.Add(currentSection, keyPairs);
             }
         }
 
@@ -78,9 +82,11 @@ namespace ErrOwk.IniParser
                 {
                     return (string)sections[sectionName][keyName]!;
                 }
-                else return "";
+                else
+                    return "";
             }
-            else return "";
+            else
+                return "";
         }
 
         /// <summary>
@@ -163,6 +169,5 @@ namespace ErrOwk.IniParser
                 }
             }
         }
-
     }
 }
