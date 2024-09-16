@@ -56,7 +56,7 @@ namespace ErrOwk.IniParser
                         else
                         {
                             //Split the row content into key and value and write them into keyPairs
-                            var currentkeyPair = currentLine.Split(['='], 2);
+                            var currentkeyPair = currentLine.Split('=', 2);
                             keyPairs!.Add(currentkeyPair[0].Trim(), currentkeyPair[1].Trim());
                         }
                     }
