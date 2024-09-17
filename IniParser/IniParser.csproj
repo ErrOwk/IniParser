@@ -9,14 +9,12 @@
     <Authors>ErrOwk</Authors>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>A completely .net based ini file operation class.</Description>
+    <Description>A simple .net based ini file operation class.</Description>
     <PackageProjectUrl>https://github.com/ErrOwk/IniParser</PackageProjectUrl>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/ErrOwk/IniParser</RepositoryUrl>
     <PackageTags>ini</PackageTags>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <Version>1.1.1-alpha</Version>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

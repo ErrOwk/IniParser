@@ -34,6 +34,8 @@ namespace ErrOwk.IniParser
             {
                 string currentLine;
                 string currentSection = null!;
+                sections = new();
+                keyPairs = new();
 
                 while ((currentLine = iniFile.ReadLine()!) != null)
                 {
@@ -97,6 +99,7 @@ namespace ErrOwk.IniParser
         /// <param name="keyValue">Value of the Key</param>
         public void Update(string sectionName, string keyName, string keyValue)
         {
+            LoadIniFile();
             if (sections.ContainsKey(sectionName))
             {
                 if (sections[sectionName].ContainsKey(keyName))
@@ -129,6 +132,7 @@ namespace ErrOwk.IniParser
         /// <param name="keyName">The key that needs to be removed</param>
         public void Remove(string sectionName, string keyName)
         {
+            LoadIniFile();
             if (sections.ContainsKey(sectionName))
             {
                 if (sections[sectionName].ContainsKey(keyName))
@@ -145,6 +149,7 @@ namespace ErrOwk.IniParser
         /// <param name="sectionName">The section that needs to be removed</param>
         public void Remove(string sectionName)
         {
+            LoadIniFile();
             if (sections.ContainsKey(sectionName))
             {
                 sections.Remove(sectionName);
